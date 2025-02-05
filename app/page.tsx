@@ -1,101 +1,123 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { MoreHorizontal } from "lucide-react";
+import Image from "next/image"
+import Link from "next/link";
+
+const tokens = [
+  {
+    id: "bitcoin",
+    name: "Bitcoin",
+    symbol: "BTC",
+    logo: "/crypto-logos/bitcoin.png",
+    currentPrice: 29324.52,
+    profitLoss: 1250.75,
+    investment: 10000,
+    currentValue: 11250.75,
+  },
+  {
+    id: "ethereum",
+    name: "Ethereum",
+    symbol: "ETH",
+    logo: "/crypto-logos/ethereum.png",
+    currentPrice: 1869.25,
+    profitLoss: -150.3,
+    investment: 5000,
+    currentValue: 4849.7,
+  },
+  {
+    id: "cardano",
+    name: "Cardano",
+    symbol: "ADA",
+    logo: "/crypto-logos/cardano.png",
+    currentPrice: 0.37,
+    profitLoss: 75.2,
+    investment: 2000,
+    currentValue: 2075.2,
+  },
+]
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value)
+  }
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  const formatPercentage = (value: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "percent",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value / 100)
+  }
+
+
+  return (
+    <main className="flex flex-col justify-center pt-32 max-w-5xl mx-auto">
+      <Card className="w-full border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="text-2xl font-bold">Your Crypto Trades</CardTitle>
+          <Button variant="default" size="default">Add Trades</Button>
+        </CardHeader>
+
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[250px]">Token</TableHead>
+                <TableHead className="text-right">Current Price</TableHead>
+                <TableHead className="text-right">Profit/Loss</TableHead>
+                <TableHead className="text-right">Investment</TableHead>
+                <TableHead className="text-right">Current Value</TableHead>
+                <TableHead className="w-[50px]"></TableHead>
+              </TableRow>
+            </TableHeader>
+
+            <TableBody>
+              {tokens.map((token) => (
+                <TableRow key={token.id} className="group">
+                  <TableCell className="font-medium">
+                    <Link href={`/token/${token.id}`} className="flex items-center hover:underline">
+                      {/* <Image
+                        src={token.logo || "/placeholder.svg"}
+                        alt={token.name}
+                        width={24}
+                        height={24}
+                        className="mr-2"
+                      /> */}
+                      <span>{token.name}</span>
+                      <span className="ml-1 text-muted-foreground">({token.symbol})</span>
+                    </Link>
+                  </TableCell>
+                  <TableCell className="text-right">{formatCurrency(token.currentPrice)}</TableCell>
+                  <TableCell className={`text-right ${token.profitLoss >= 0 ? "text-green-500" : "text-red-500"}`}>
+                    {formatCurrency(token.profitLoss)} ({formatPercentage((token.profitLoss / token.investment) * 100)})
+                  </TableCell>
+                  <TableCell className="text-right">{formatCurrency(token.investment)}</TableCell>
+                  <TableCell className="text-right">{formatCurrency(token.currentValue)}</TableCell>
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                          <span className="sr-only">Open menu</span>
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>View details</DropdownMenuItem>
+                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+
+          </Table>
+        </CardContent>
+      </Card>
+    </main>
   );
 }
