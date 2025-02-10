@@ -1,9 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { MoreHorizontal } from "lucide-react";
-import Image from "next/image"
 import Link from "next/link";
 
 const tokens = [
@@ -37,28 +48,34 @@ const tokens = [
     investment: 2000,
     currentValue: 2075.2,
   },
-]
+];
 
 export default function Home() {
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value)
-  }
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(value);
+  };
 
   const formatPercentage = (value: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "percent",
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    }).format(value / 100)
-  }
-
+    }).format(value / 100);
+  };
 
   return (
     <main className="flex flex-col justify-center pt-32 max-w-5xl mx-auto">
       <Card className="w-full border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-2xl font-bold">Your Crypto Trades</CardTitle>
-          <Button variant="default" size="default">Add Trades</Button>
+          <CardTitle className="text-2xl font-bold">
+            Your Crypto Trades
+          </CardTitle>
+          <Button variant="default" size="default">
+            Add Trades
+          </Button>
         </CardHeader>
 
         <CardContent>
@@ -78,7 +95,10 @@ export default function Home() {
               {tokens.map((token) => (
                 <TableRow key={token.id} className="group">
                   <TableCell className="font-medium">
-                    <Link href={`/token/${token.id}`} className="flex items-center hover:underline">
+                    <Link
+                      href={`/token/${token.id}`}
+                      className="flex items-center hover:underline"
+                    >
                       {/* <Image
                         src={token.logo || "/placeholder.svg"}
                         alt={token.name}
@@ -87,15 +107,29 @@ export default function Home() {
                         className="mr-2"
                       /> */}
                       <span>{token.name}</span>
-                      <span className="ml-1 text-muted-foreground">({token.symbol})</span>
+                      <span className="ml-1 text-muted-foreground">
+                        ({token.symbol})
+                      </span>
                     </Link>
                   </TableCell>
-                  <TableCell className="text-right">{formatCurrency(token.currentPrice)}</TableCell>
-                  <TableCell className={`text-right ${token.profitLoss >= 0 ? "text-green-500" : "text-red-500"}`}>
-                    {formatCurrency(token.profitLoss)} ({formatPercentage((token.profitLoss / token.investment) * 100)})
+                  <TableCell className="text-right">
+                    {formatCurrency(token.currentPrice)}
                   </TableCell>
-                  <TableCell className="text-right">{formatCurrency(token.investment)}</TableCell>
-                  <TableCell className="text-right">{formatCurrency(token.currentValue)}</TableCell>
+                  <TableCell
+                    className={`text-right ${token.profitLoss >= 0 ? "text-green-500" : "text-red-500"}`}
+                  >
+                    {formatCurrency(token.profitLoss)} (
+                    {formatPercentage(
+                      (token.profitLoss / token.investment) * 100,
+                    )}
+                    )
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {formatCurrency(token.investment)}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {formatCurrency(token.currentValue)}
+                  </TableCell>
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -107,17 +141,19 @@ export default function Home() {
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem>View details</DropdownMenuItem>
                         <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
+                        <DropdownMenuItem className="text-red-600">
+                          Delete
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
-
           </Table>
         </CardContent>
       </Card>
+      <div className="flex items-center gap-2"></div>
     </main>
   );
 }
