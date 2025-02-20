@@ -1,11 +1,23 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -14,8 +26,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { MoreHorizontal } from "lucide-react";
+import { Copy, MoreHorizontal } from "lucide-react";
+import {
+  Bitcoin,
+  EclipseIcon as Ethereum,
+  BitcoinIcon as Litecoin,
+  MonitorXIcon as Monero,
+} from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 const tokens = [
   {
@@ -50,7 +69,17 @@ const tokens = [
   },
 ];
 
+const tokensList = [
+  { name: "Bitcoin", symbol: "BTC", icon: Bitcoin },
+  { name: "Ethereum", symbol: "ETH", icon: Ethereum },
+  { name: "Litecoin", symbol: "LTC", icon: Litecoin },
+  { name: "Monero", symbol: "XMR", icon: Monero },
+  // Add more tokens as needed
+];
+
 export default function Home() {
+  const [open, setOpen] = useState(false);
+
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -73,9 +102,40 @@ export default function Home() {
           <CardTitle className="text-2xl font-bold">
             Your Crypto Trades
           </CardTitle>
-          <Button variant="default" size="default">
-            Add Trades
-          </Button>
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button variant="default" size="default">
+                Add Token
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>Add Token</DialogTitle>
+                <DialogDescription>
+                  Select a token from the list below to start tracking.
+                </DialogDescription>
+              </DialogHeader>
+              <ScrollArea className="h-[300px] w-full rounded-md border p-4">
+                {tokensList.map((token) => (
+                  <Button
+                    key={token.symbol}
+                    variant="ghost"
+                    className="w-full justify-start gap-2 mb-2"
+                    onClick={() => {
+                      console.log(`Selected token: ${token.name}`);
+                      setOpen(false);
+                    }}
+                  >
+                    <token.icon className="h-5 w-5" />
+                    <span>{token.name}</span>
+                    <span className="ml-auto text-muted-foreground">
+                      {token.symbol}
+                    </span>
+                  </Button>
+                ))}
+              </ScrollArea>
+            </DialogContent>
+          </Dialog>
         </CardHeader>
 
         <CardContent>
@@ -96,7 +156,7 @@ export default function Home() {
                 <TableRow key={token.id} className="group">
                   <TableCell className="font-medium">
                     <Link
-                      href={`/token/${token.id}`}
+                      href={`/portfolio/token/${token.id}`}
                       className="flex items-center hover:underline"
                     >
                       {/* <Image
