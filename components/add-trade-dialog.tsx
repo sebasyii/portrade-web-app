@@ -1,32 +1,31 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useState } from "react"
-import { Plus } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Switch } from "@/components/ui/switch"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Plus } from "lucide-react";
+import type React from "react";
+import { useState } from "react";
 
 export default function AddTradeDialog() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
-  const [hasFees, setHasFees] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [hasFees, setHasFees] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-    const tradeData = Object.fromEntries(formData)
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const tradeData = Object.fromEntries(formData);
 
     // Here you would typically add the new trade to your state or send it to an API
-    console.log("New trade added:", tradeData)
+    console.log("New trade added:", tradeData);
 
     // Close the dialog
-    setIsDialogOpen(false)
-  }
+    setIsDialogOpen(false);
+  };
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -115,6 +114,5 @@ export default function AddTradeDialog() {
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
-

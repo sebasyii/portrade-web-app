@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
     "format": "npx prettier . --write",
     "prepare": "husky install"
   },
@@ -57,6 +58,7 @@
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "husky": "^8.0.0",
     "lint-staged": "^15.4.3",
     "postcss": "^8",

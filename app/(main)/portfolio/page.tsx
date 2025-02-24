@@ -1,12 +1,11 @@
 "use client";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -18,21 +17,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Copy, MoreHorizontal } from "lucide-react";
-import {
-  Bitcoin,
-  EclipseIcon as Ethereum,
-  BitcoinIcon as Litecoin,
-  MonitorXIcon as Monero,
-} from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { MoreHorizontal } from "lucide-react";
+import { Bitcoin, EclipseIcon as Ethereum, BitcoinIcon as Litecoin, MonitorXIcon as Monero } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -99,9 +86,7 @@ export default function Home() {
     <main className="flex flex-col justify-center pt-32 max-w-5xl mx-auto">
       <Card className="w-full border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-2xl font-bold">
-            Your Crypto Trades
-          </CardTitle>
+          <CardTitle className="text-2xl font-bold">Your Crypto Trades</CardTitle>
           <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <Button variant="default" size="default">
@@ -111,9 +96,7 @@ export default function Home() {
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
                 <DialogTitle>Add Token</DialogTitle>
-                <DialogDescription>
-                  Select a token from the list below to start tracking.
-                </DialogDescription>
+                <DialogDescription>Select a token from the list below to start tracking.</DialogDescription>
               </DialogHeader>
               <ScrollArea className="h-[300px] w-full rounded-md border p-4">
                 {tokensList.map((token) => (
@@ -128,9 +111,7 @@ export default function Home() {
                   >
                     <token.icon className="h-5 w-5" />
                     <span>{token.name}</span>
-                    <span className="ml-auto text-muted-foreground">
-                      {token.symbol}
-                    </span>
+                    <span className="ml-auto text-muted-foreground">{token.symbol}</span>
                   </Button>
                 ))}
               </ScrollArea>
@@ -155,10 +136,7 @@ export default function Home() {
               {tokens.map((token) => (
                 <TableRow key={token.id} className="group">
                   <TableCell className="font-medium">
-                    <Link
-                      href={`/portfolio/token/${token.id}`}
-                      className="flex items-center hover:underline"
-                    >
+                    <Link href={`/portfolio/token/${token.id}`} className="flex items-center hover:underline">
                       {/* <Image
                         src={token.logo || "/placeholder.svg"}
                         alt={token.name}
@@ -167,29 +145,15 @@ export default function Home() {
                         className="mr-2"
                       /> */}
                       <span>{token.name}</span>
-                      <span className="ml-1 text-muted-foreground">
-                        ({token.symbol})
-                      </span>
+                      <span className="ml-1 text-muted-foreground">({token.symbol})</span>
                     </Link>
                   </TableCell>
-                  <TableCell className="text-right">
-                    {formatCurrency(token.currentPrice)}
+                  <TableCell className="text-right">{formatCurrency(token.currentPrice)}</TableCell>
+                  <TableCell className={`text-right ${token.profitLoss >= 0 ? "text-green-500" : "text-red-500"}`}>
+                    {formatCurrency(token.profitLoss)} ({formatPercentage((token.profitLoss / token.investment) * 100)})
                   </TableCell>
-                  <TableCell
-                    className={`text-right ${token.profitLoss >= 0 ? "text-green-500" : "text-red-500"}`}
-                  >
-                    {formatCurrency(token.profitLoss)} (
-                    {formatPercentage(
-                      (token.profitLoss / token.investment) * 100,
-                    )}
-                    )
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {formatCurrency(token.investment)}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {formatCurrency(token.currentValue)}
-                  </TableCell>
+                  <TableCell className="text-right">{formatCurrency(token.investment)}</TableCell>
+                  <TableCell className="text-right">{formatCurrency(token.currentValue)}</TableCell>
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -201,9 +165,7 @@ export default function Home() {
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem>View details</DropdownMenuItem>
                         <DropdownMenuItem>Edit</DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">
-                          Delete
-                        </DropdownMenuItem>
+                        <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
