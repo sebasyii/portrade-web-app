@@ -4,5 +4,8 @@
   "tailwindConfig": "tailwind.config.ts",
   "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
   "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  "importOrderSortSpecifiers": true,
+  "semi": true,
+  "printWidth": 120,
+  "trailingComma": "es5",
 }
